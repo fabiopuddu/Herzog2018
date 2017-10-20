@@ -7,6 +7,7 @@ bwa mem -R \"@RG\tID:${ERSNO}\tSM:${SNAME}\" <GRCm38_68.fa|Saccharomyces_cerevis
 #Required if working with mouse exome sequencing data: bed files of all bait target regions separated by chromosome
 
 #Sample progress of an analysis
+filelist=''
 while IFS='' read -r line || [[ -n "$line" ]]; do
   	n=$(echo $line | sed 's/.bam//g');
   	
@@ -71,11 +72,16 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
 	bgzip -f $n.sort2.vcf 
 	bgzip -f $n.sort2.vcf 
 	tabix -p vcf $n.sort2.vcf.gz	
+	
+	#create a list of all final vcf files created
+	b='.sort2.vcf.gz '
+	c=$n$b
+	filelist+=$c
 
 done < "$1" #provide a list of bam files from the command line (with one bam file per line)
 
 #Continue merge
-vcf-merge <space-separated list of all created .sort2.vcf.gz files>  > Experiment_merge.vcf
+vcf-merge $filelist  > Experiment_merge.vcf
 
 #Create the list of potential suppressor mutations
 perl vcf_to_gene_list.pl -i Experiment_merge.vcf > results.tsv
