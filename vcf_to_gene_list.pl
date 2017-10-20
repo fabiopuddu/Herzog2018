@@ -2,7 +2,7 @@
 # 
 # Author:       Mareike Herzog	
 # Maintainer:   Mareike Herzog
-# Created:      
+# Created:      2013
 
 use Carp;
 use strict;
@@ -14,6 +14,7 @@ use Getopt::Long;
 ## CSQs we are interested in ## 
 ##							 ##
 ###############################
+#These consequences can be edited as desired. Note: The order of the consequences should reflect the order of severity/should a mutation have more than one potential consequence the preferred one should be listed here first
 my @csqs = ('stop_gained', 'missense_variant','stop_lost','frameshift_variant','initiator_codon_variant','splice_donor_variant','splice_acceptor_variant','inframe_insertion','inframe_deletion','splice_region_variant');
 my @samples;
 my $aminoacid = 'NA'; my $nt_change = 'NA';
